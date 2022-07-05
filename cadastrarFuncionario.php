@@ -37,6 +37,8 @@
                 </button>
             </form>
             <?php
+              function conexao(){
+
                 $nomeServidor ="localhost";
                 $database = "database";
                 $usuario = "root";
@@ -48,10 +50,28 @@
                 //checagem de conexão
                 if(!$conexao){
                   die("Conexão Falhou: ".mysqli_connect_error());
-                  
-                 }else{
+                }else{
                   echo "Conexão com sucesso";
                 }
+                return $conexao;
+              }
+              function inserir($nome, $cargo, $salario, $descricao){
+                $conexao = conexao();
+                $comando = "INSERT INTO funcionarios(nome,cargo,salario,descricao) VALUES ('$nome', '$cargo', $salario, '$descricao')";
+
+                if(mysqli_query($conexao, $comando)){
+                  echo "Registro do Funcionario efetuado com sucesso!";
+                }else{
+                  echo
+                   "Erro: ".$comando."<br>".mysqli_error($conexao);
+                }
+
+              }
+              if(isset($_POST['nome'])){
+                print_r($_POST);
+                inserir($_POST['nome'], $_POST['cargo'], $_POST['salario'], $_POST['descricao']);
+              }
+              
             ?>
 
     

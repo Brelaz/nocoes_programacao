@@ -20,7 +20,36 @@
     </nav>
     <center>
         <a href="cadastrarFuncionario.php" type="button" class="btn btn-success">Cadastrar Novo Funcionário</a>
-            
+         <?php
+         function conexao(){
+            $nomeServidor ="localhost";
+            $database = "database";
+            $usuario = "root";
+            $senha = "";
+
+
+            //criar a conexão
+            $conexao = mysqli_connect($nomeServidor, $usuario, $senha, $database);
+            //checagem de conexão
+            if(!$conexao){
+              die("Conexão Falhou: ".mysqli_connect_error());
+            }else{
+              //echo "Conexão com sucesso";
+            }
+            return $conexao;
+          }
+
+
+          function selectFuncionarios(){
+            $conexao = conexao();
+            //executar o comando desejado
+            $comando = "SELECT * FROM FUNCIONARIOS";
+            $resultado_comando = mysqli_query($conexao, $comando)or die('erro do envio do comando:'.$comando. " ".mysqli_error($conexao));
+            //exibir os dados da nossa tabela
+            return $resultado_comando;
+          }
+          $funcionarios = selectFuncionarios();
+         ?>
         <table class="table table-dark table-hover">
         <thead>
              <tr>
@@ -33,15 +62,23 @@
             </tr>
         </thead>
          <tbody>
-            <tr>
-                <td>...</td> 
-                <td>...</td> 
-                <td>...</td> 
-                <td>...</td> 
-                <td>...</td> 
-                <td>...</td> 
-                 
-            </tr>
+            <?php
+         while($indice = mysqli_fetch_array($funcionarios)){
+            
+            echo "<tr>";
+            echo "<td>".$indice['id']."</td>";
+            echo "<td>".$indice['nome']."</td>";
+            echo "<td>".$indice['cargo']."</td>";
+            echo "<td>".$indice['salario']."</td>";
+            echo "<td>".$indice['descricao']."</td>";
+            echo"<td>"."<button class='btn btn-info'>Editar</button>";
+            echo"<button class='btn btn-danger'>Remover</button></td";
+            echo "</tr>";
+             
+
+            }
+            ?>
+           
         </table>
     </center>
     </body>
