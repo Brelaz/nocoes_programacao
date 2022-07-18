@@ -68,8 +68,8 @@
         // echo "<br>";
         // print_r($pessoa3);
         // echo "<Br>";
-
         $arrayPessoas = array();
+        
         function inserirPessoaNaLista($arrayPessoas, $item){
             $pessoa = new pessoa_obj();
             $pessoa->name = $item['nome'];
